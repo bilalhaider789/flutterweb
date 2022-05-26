@@ -1,8 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutterweb/constant/constats.dart';
 
-class Homepage extends StatelessWidget { 
+class Homepage extends StatelessWidget {
   const Homepage({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -151,7 +154,6 @@ class PostBox extends StatelessWidget {
                         ),
                         onPressed: () {
                           ShowDialog(context);
-                          
                         },
                         child: Text(
                           "New Post",
@@ -213,7 +215,11 @@ class Wethearbox extends StatelessWidget {
             children: [
               Text("33.6°C\n38.8°C",
                   style: TextStyle(color: Colors.white, fontSize: 14)),
-              Icon(Icons.cloud, color: Colors.white, size: 40,),
+              Icon(
+                Icons.cloud,
+                color: Colors.white,
+                size: 40,
+              ),
             ],
           ),
           SizedBox(
@@ -298,150 +304,162 @@ class Wethearbox extends StatelessWidget {
 ShowDialog(BuildContext context) {
   double h = MediaQuery.of(context).size.height;
   double w = MediaQuery.of(context).size.width;
+  TextEditingController postContentController = TextEditingController();
 
   Dialog alert = Dialog(
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-    child: Container(
-      height: h * 0.68,
-      width: w * 0.38,
-      child: Column(
-        children: [
-          Padding(
-            padding:
-                EdgeInsets.symmetric(horizontal: w * 0.025, vertical: h * 0.02),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Create Post",
-                  style: TextStyle(fontWeight: FontWeight.bold),
-                ),
-                IconButton(
-                  icon: const Icon(Icons.close),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ),
-              ],
-            ),
-          ),
-          Divider(),
-          Container(
-            padding: EdgeInsets.only(top: h * 0.05, left: w * 0.025, right: w * 0.025),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Text(
-                      "What's on your mind?",
-                      style: TextStyle(fontSize: 25),
-                    ),
-                  ],
-                ),
-                Container(
-                  height: h * 0.25,
-                  width: w * 0.32,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(5),
-                      border: Border.all(color: Colors.redAccent)),
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(horizontal: w * 0.01),
-                    child: TextField(
-                      onChanged: (value) {},
-                      cursorColor: Colors.redAccent,
-                      decoration: InputDecoration(
-                        enabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.redAccent),
-                        ),
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.redAccent),
-                        ),
-                      ),
-                      maxLines: 8,
-                    ),
+    child: StatefulBuilder(builder: (context, snapshot) {
+      return Container(
+        height: h * 0.68,
+        width: w * 0.38,
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.symmetric(
+                  horizontal: w * 0.025, vertical: h * 0.002),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Create Post",
+                    style: TextStyle(fontWeight: FontWeight.bold),
                   ),
-                ),
-                SizedBox(
-                  height: h * 0.01,
-                ),
-                Text(
-                  "Remaining characters: 280",
-                  style: TextStyle(color: Colors.grey),
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: h * 0.05,
-          ),
-          Divider(),
-          SizedBox(
-            height: h * 0.015,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Container(
-                height: h * 0.06,
-                padding: EdgeInsets.only(right: w * 0.01),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.grey),
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered))
-                          return Colors.redAccent;
-                        return null;
-                      },
-                    ),
+                  IconButton(
+                    icon: const Icon(Icons.close),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                   ),
-                  child: const Text(
-                    'cancel',
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
+                ],
               ),
-              Container(
-                height: h * 0.06,
-                padding: EdgeInsets.only(right: w * 0.03),
-                child: ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.redAccent),
-                    overlayColor: MaterialStateProperty.resolveWith<Color?>(
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.hovered))
-                          return Colors.red;
-                        return null;
-                      },
-                    ),
-                  ),
-                  child: Row(
+            ),
+            Divider(),
+            Container(
+              padding: EdgeInsets.only(
+                  top: h * 0.02, left: w * 0.025, right: w * 0.025),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
                     children: [
-                      Transform.rotate(
-                          angle: 150,
-                          child: Icon(
-                            Icons.send_rounded,
-                            size: 16,
-                          )),
-                      Text(
-                        'Post',
-                        style: TextStyle(color: Colors.white),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: h * 0.01),
+                        child: Text(
+                          "What's on your mind?",
+                          style: TextStyle(fontSize: 25),
+                        ),
                       ),
                     ],
                   ),
-                ),
+                  Container(
+                    height: h * 0.22,
+                    width: w * 0.32,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(5),
+                        border: Border.all(color: Colors.redAccent)),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: w * 0.01),
+                      child: TextField(
+                        controller: postContentController,
+                        onChanged: (value) {
+                          snapshot.call(() {});
+                        },
+                        cursorColor: Colors.redAccent,
+                        decoration: InputDecoration(
+                          enabledBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.redAccent),
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.redAccent),
+                          ),
+                        ),
+                        maxLines: 7,
+                      ),
+                    ),
+                  ),
+                  SizedBox(
+                    height: h * 0.01,
+                  ),
+                  Text(
+                    "Remaining characters: ${maxAllowedWord - postContentController.text.length}",
+                    style: TextStyle(color: Colors.grey),
+                  )
+                ],
               ),
-            ],
-          )
-        ],
-      ),
-    ),
+            ),
+            SizedBox(
+              height: h * 0.15,
+            ),
+            Divider(),
+            SizedBox(
+              height: h * 0.015,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Container(
+                  height: h * 0.06,
+                  padding: EdgeInsets.only(right: w * 0.01),
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.grey),
+                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.hovered))
+                            return Colors.redAccent;
+                          return null;
+                        },
+                      ),
+                    ),
+                    child: const Text(
+                      'cancel',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: h * 0.06,
+                  padding: EdgeInsets.only(right: w * 0.03),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all<Color>(Colors.redAccent),
+                      overlayColor: MaterialStateProperty.resolveWith<Color?>(
+                        (Set<MaterialState> states) {
+                          if (states.contains(MaterialState.hovered))
+                            return Colors.red;
+                          return null;
+                        },
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Transform.rotate(
+                            angle: 150,
+                            child: Icon(
+                              Icons.send_rounded,
+                              size: 16,
+                            )),
+                        Text(
+                          'Post',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            )
+          ],
+        ),
+      );
+    }),
   );
   showDialog(
     context: context,
